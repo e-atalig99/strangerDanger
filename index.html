@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" 
+      type="image/png" 
+      href="http://www.childandfamilymentalhealth.com/wp-content/uploadZ33/2012/02/stranger-danger.gif">
+  <title>strangerDANGER</title>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE-edge,chrome=1">
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+  <script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+<!--MAPBOX SCRIPTS-->
+
+  <script>
+  var ref = new Firebase('https://shining-inferno-6051.firebaseio.com/'); 
+  
+
+
+function login(){
+    //ref.once('value', function(snapshot) {
+      
+      var user3 = $('#inputuser').val();
+      var password1=$('#inputpassword').val();
+      checkPass(user3,password1);
+     
+      
+  
+  }
+
+function signup(){
+
+  var userid = $('#inputusersu').val();
+  var passwordsu=$('#inputpasswordsu').val();
+  var numm=$('#inputnumsu').val();
+  var numm2=$('#inputnum2su').val();
+  var numm3=$('#inputnum3su').val();
+  var mes=$('#inputmessu').val();
+
+  check(userid,passwordsu,numm,numm2,numm3,mes);
+  //console.log(answer);
+  
+    //if no add it
+     
+
+     //if it does alert(pick diff name) 
+}
+
+
+
+
+function check(userid,passwordsu,numm,numm2,numm3,mes){
+    var flag=0;
+    ref.once("value", function(allusersSnapshot) {
+      allusersSnapshot.forEach(function(userSnapshot) {
+    // Will be called with a messageSnapshot for each child under the /messages/ node
+      //var key = userSnapshot.key();  // e.g. "-JqpIO567aKezufthrn8"
+      var username = userSnapshot.child("user").val();  // e.g. "barney"
+      //var password = userSnapshot.child("pass").val();
+      
+      //console.log("checking  "+username);
+      
+      if (username===userid){
+        flag=1;
+        alert("That username is taken!");
+        
+        //console.log("true!");
+      }
+
+    });
+    if (flag==0){
+      var userRef= ref.child(userid);
+      userRef.set({ 
+      user:userid,
+      pass: passwordsu,
+      num1:numm,
+      num2:numm2,
+      num3:numm3,
+      mess:mes
+      });
+      alert("You're signed up, please login!");
+    }
+      
+      
+      //console.log("didnt find!");
+  });
+  }
+
+
+
+
+      /*//var userid = $('#inputusersu').val();
+      //child(userid)
+      ref.once("value", function(snapshot){
+        var exist=(snapshot.val()!==null);
+    
+        if (exist){
+          console.log('t');
+        }
+        else{
+          console.log('f');
+        }*/
+
+
+
+function checkPass(user3,password1){
+    var flag1=0;
+    ref.once("value", function(allusersSnapshot) {
+      allusersSnapshot.forEach(function(userSnapshot) {
+    // Will be called with a messageSnapshot for each child under the /messages/ node
+      //var key = userSnapshot.key();  // e.g. "-JqpIO567aKezufthrn8"
+      var username1 = userSnapshot.child("user").val();  // e.g. "barney"
+      var password5 = userSnapshot.child("pass").val();
+      
+      //console.log("checking "+username1+password1);
+      
+      if (username1===user3){
+        flag1=1;
+        //alert("You're logedin!");
+        //return true;
+        //console.log("true!");
+        if(password5===password1){
+          var realuser= username1;
+          
+          
+          window.location.href=("#home");
+        }
+        else{
+          alert("Try diffrent pass!");
+        }
+      }
+          
+    });
+    if (flag1==0){
+      alert("no username");
+    }
+      
+      //console.log("didnt find!");
+  });
+  }
+
+$(document).ready(function() {
+    $( "#submit" ).click(function() {
+      var user3 = $('#inputuser').val().toString();
+        ref.child(user3).once('value', function(snapshot) {
+          
+          
+          login();
+
+        });
+    });
+  });
+$(document).ready(function() {
+    $( "#submit2" ).click(function() {
+      var user2 = $('#inputusersu').val().toString();
+        ref.child(user2).once('value', function(snapshot) {
+          signup();
+          //check();
+        });
+    });
+  });
+var realuser;
+function userUpdate(){
+  realuser=$('#inputuser').val();
+  
+  return(realuser);
+}
+  
+    //JAVASCRIPT OF THE ACCORDION MAP ETC
+    $(document).ready(function() {
+    function close_accordion_section() {
+        $('.accordion .accordion-section-title').removeClass('active');
+        $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
+    }
+ 
+    $('.accordion-section-title').click(function(e) {
+        // Get current anchor value
+        var currentAttrValue = $(this).attr('href');
+ 
+        if($(e.target).is('.active')) {
+            close_accordion_section();
+        }else {
+            close_accordion_section();
+ 
+            // Add active class to section title
+            $(this).addClass('active');
+            // Open up the hidden content panel
+            $('.accordion ' + currentAttrValue).slideDown(300).addClass('open'); 
+        }
+ 
+        e.preventDefault();
+    });
+});
+    //START OF TEXT FUNCTION SCRIPT
+  
+
+var recipient=0;
+var recipient2=0;
+var recipient3=0;
+var message=0;
+var trecipient=0;
+var trecipient2=0;
+var trecipient3=0;
+var tmessage=0;
+var theuser;
+
+function recordInputs() {
+    theuser=userUpdate();
+    if (theuser==0){
+      alert("You need to login!")
+      home();
+    }
+    else{
+    tmessage =  $('#msgIn').val();
+    trecipient =  $('#recIn').val();
+    trecipient2 =  $('#recIn2').val();
+    trecipient3 =  $('#recIn3').val();
+    theuser=userUpdate();
+    
+    var hopperRef = ref.child(theuser);
+  hopperRef.update({ 
+    num1: trecipient, num2: trecipient2, num3:trecipient3, mess:tmessage 
+  }); 
+    
+    /*document.getElementById('#msgIn').value="";
+    document.getElementById('#recIn').value=""; */
+  home();
+}
+}
+  /*
+  $.post("// http://api.tropo.com/1.0/sessions?action=create&token=0cac179f34c33a48846774b6a110ce59ce12c4aaa414d244b7730427b17ce6da2783b5ea5105c92bbbbe5c1c&myString=hi+world&myNumber=8579287213");
+  alert(ready);
+  //https://api.tropo.com/1.0/sessions?action=create&token=https://api.tropo.com/1.0/sessions?action=create&token=0cac179f34c33a48846774b6a110ce59ce12c4aaa414d244b7730427b17ce6da2783b5ea5105c92bbbbe5c1c
+*/
+
+var locationnn= 0;
+var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 8,
+    center: {lat: 40.731, lng: -73.997}
+  });
+var geocoder = new google.maps.Geocoder;
+function geocodeLatLng(geocoder, map) {
+  var input = document.getElementById('latlng').value;
+var latlngStr = input.split(',', 2);
+var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+  geocoder.geocode({'location': latlng}, function(results, status) {
+    if (status === google.maps.GeocoderStatus.OK) {
+     locationnn = (results[0].formatted_address);
+   }
+       
+        });
+
+alert(locationnn)
+
+
+
+}
+
+function before(){
+
+alert("wuttttt")
+
+theuser=userUpdate();
+
+if (theuser==0) {
+  alert("You are not logged in!");
+} 
+else{
+var mess=0;
+var num1=0;
+var num2=0;
+var num3=0;
+alert(locationnn+"second time")
+  ref.once("value", function(snapshot) {
+  theuser=userUpdate();
+
+
+  var nameSnapshot = snapshot.child(theuser).child("mess");
+  mess = nameSnapshot.val()+"   "+locationnn;
+
+  var nameSnapshot1 = snapshot.child(theuser).child("num3");
+   num3 = nameSnapshot1.val();
+  
+  var nameSnapshot2 = snapshot.child(theuser).child("num2");
+  num2 = nameSnapshot2.val();
+
+  var nameSnapshot3 = snapshot.child(theuser).child("num1");
+  num1 = nameSnapshot3.val();
+  
+ text(mess,num1,num2,num3);
+
+  });
+
+ }
+
+}
+
+
+function text(mess,num1,num2,num3){
+
+  //alert(mess+"  "+num1+"  "+num2+"  "+num3);
+  //recipient=getValuenum1();
+  //alert(recipient);
+  //recipient2=getValuenum2();
+  //alert(recipient2);
+  //recipient3=getValuenum3();
+ // alert(recipient3);
+  //message=getValuemess();
+  //alert(message);
+
+  // name === { first: "Fred", last: "Flintstone"}
+  
+  // age === null (because there is no "age" child in the data snapshot)
+    $(document).ready(function(){
+      var urlWNoStuff = "http://api.tropo.com/1.0/sessions?action=create&token=0cac179f34c33a48846774b6a110ce59ce12c4aaa414d244b7730427b17ce6da2783b5ea5105c92bbbbe5c1c&myString="+mess+"&myNumber="+num1+"&myNumber2="+num2+"&myNumber3="+num3;
+       //alert(urlWNoStuff); 
+
+      $.post(urlWNoStuff,
+        {numberToDial:recipient, msg:message},
+        function(data, textStatus, jqXHR)
+        {
+           
+        });
+      
+     });  
+ }
+
+
+ 
+/*function call() {
+
+  $(document).ready(function(){
+    var urlWNoStuff = "https://api.tropo.com/1.0/sessions?action=create&token=0ca9edfff0b5ea48aad2f3fa634786d369c4e2c0b847e0a69e35b4b3bfffaf0986238586221465e610c41efc";
+       
+  $.post(urlWNoStuff,
+    {numberToDial:"+13477520712"});
+    
+  
+  });   
+ }*/
+
+ 
+function maps(){
+  window.location="chenoaIndex.html";
+}
+function credits(){
+  window.location="credits.html";
+}
+function fake(){
+  window.location.href="#fake";
+}
+function home(){
+  window.location.href="#home";
+}
+
+  </script>
+
+
+
+
+
+  <style>
+/*CAROUSEL STYLING*/
+  
+/*RANDOM CLASSES*/
+  
+  .section {
+    background-color:black;
+
+  }
+  #icon {
+    font-family: 'Quicksand', sans-serif;
+    color:black;
+  }
+  #iconw {
+    font-family: 'Quicksand', sans-serif;
+    color:white;
+    padding-top:50px;
+    line-height:150%;
+  }
+  #header {
+    height:50px;
+      
+      background-image:url("bee.png");
+      background-position:center;
+      font-family: 'Quicksand', sans-serif;
+      font-size:100%;
+      text-align:center;
+
+      
+
+     
+      
+  }
+  #footer{
+    background-image:url("bee.png");
+      background-position:center;
+      font-family: 'Quicksand', sans-serif;
+      font-size:100%;
+      text-align:center;
+     
+  }
+  #d {
+   margin-top:10px;
+   margin-bottom:10px;
+    width:230px;
+    height:30px;
+
+  }
+  #z {
+    width:130px;
+    height:130px;
+    
+    
+  }
+  #y{
+    width:75px;
+    height:75px;
+   margin-right:50px;
+   margin-bottom:5px;
+
+  }
+  #x {
+    width:75px;
+    height:75px;
+   margin-left:50px;
+   margin-bottom:5px;
+    
+  
+  }
+
+  #doo {
+    width:55px;
+    height:45px;
+    
+  }
+  .align{
+    text-align:center;
+  }
+  .height {
+    height:100%;
+  }
+  #fake {
+    width:100%;
+    height:100%;
+  }
+  #headphone{
+    width:100%;
+  }
+
+  .button1 {
+    width:25%;
+    height:15%;
+    padding-right:2%;
+    padding-left:2%;
+  }
+  #caller {
+    width:22%;
+    height:7%;
+    margin-top:10%;
+    margin-bottom:20%;
+  }
+  #blackback{
+    background-color:#101010;
+    height:100%;
+  }
+  #end {
+    width:25%;
+    height:16%;
+    padding-right:2%;
+    padding-left:2%;
+    padding-top:5%;
+  }
+  
+    /*----- Accordion -----*/
+.accordion, .accordion  $* {
+    -webkit-box-sizing:border-box; 
+    -moz-box-sizing:border-box; 
+    box-sizing:border-box;
+}
+ 
+.accordion {
+    overflow:hidden;
+    border:solid;
+    border-width:5px;
+    border-color:black;
+    border-radius:3px;
+    background:black;
+
+}
+ 
+/*----- Section Titles -----*/
+.accordion-section-title {
+    width:100%;
+    padding:15px;
+    display:inline-block;
+    border-bottom:1px solid #1a1a1a;
+    background:white;
+    transition:all linear 0.15s;
+    /* Type */
+    font-size:1.200em;
+    text-shadow:0px 0px 0px #1a1a1a;
+
+}
+ 
+.accordion-section-title.active, .accordion-section-title:hover {
+    background:white;
+    /* Type */
+    text-decoration:none;
+}
+ 
+.accordion-section:last-child .accordion-section-title {
+    border-bottom:none;
+}
+ 
+/*----- Section Content -----*/
+.accordion-section-content {
+    padding:15px;
+    display:none;
+    border:solid;
+    border-color:black;
+    background:white;
+}
+
+
+
+.headers {
+  font-size:150%;
+  font-weight:bold;
+  text-align:center;
+  color:white;
+  background-color:black;
+
+}
+.par{
+  background-color:rgba(250,78,78,.4);
+}
+.link{
+  background-color:rgba(255,255,255,1);
+  color:black;
+
+}
+.padtext{
+  margin-top:20px;
+  margin-left:10px;
+  margin-right:10px;
+}
+.height{
+  height:20px;
+}
+
+ul {
+
+   list-style-type: circle;
+
+}
+#homez{
+  color:red;
+}
+body{
+  width:100%;
+  height:100%;
+}
+
+.carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 70%;
+      margin: auto;
+  }
+/* MAPBOX STYLE*/
+
+.home{
+  width:50px;
+  height:50px;
+}
+
+  </style>
+</head>
+<body>
+<div data-role="page" id="login">
+  <title>Welcome!</title>
+
+  <div data-role="header" id="header" class="align">
+    
+    <img src="stranger.gif"alt="strangerDANGER" id="d">
+    <img src="DANGER.gif"alt="strangerDANGER" id="d">
+    <img src="walk.gif"alt="" id="doo">
+
+  </div><!-- /header -->
+    <!--LOGIN ACCORDION TAB --> 
+    <div class="accordion">
+        <div class="accordion-section">
+            <a class="accordion-section-title" href="#accordion-1"  id="icon">Login</a>
+             <div id="accordion-1" class="accordion-section-content">
+                <p><a href="#user" id="icon"></a></p><input type="text" name="user" id="inputuser" placeholder="user">
+              <p><a href="#password"id="icon"></a></p><input type="text" name="password" id="inputpassword" placeholder="password"> 
+             <input type="submit" class="button" id="submit" value="Submit">
+
+            </div><!--end .accordion-section-content-->
+        </div><!--end .accordion-section-->
+    </div><!--end .accordion-->
+    <div class="accordion">
+        <div class="accordion-section">
+            <a class="accordion-section-title" href="#accordion-2"id="icon">Signup</a>
+             
+            <div id="accordion-2" class="accordion-section-content">
+                <p><a href="#usersu" id="icon"></a></p><input type="text" name="user" id="inputusersu" placeholder="user">
+              <p><a href="#passwordsu"id="icon"></a></p><input type="text" name="password" id="inputpasswordsu" placeholder="password">
+
+               <p><a href="#numsu"id="icon"></a></p><input type="text" name="numm" id="inputnumsu" placeholder="Helper#1">
+              <p><a href="#num2su"id="icon"></a></p><input type="text" name="numm2" id="inputnum2su" placeholder="Helper#2">
+              <p><a href="#num3su"id="icon"></a></p><input type="text" name="numm3" id="inputnum3su" placeholder="Helper#3">
+              <p><a href="#messu"id="icon"></a></p><input type="text" name="mes" id="inputmessu" placeholder="Help Message">
+              <input type="submit" class="button" id="submit2" value="Submit">
+              
+            </div><!--end .accordion-section-content-->
+        </div><!--end .accordion-section-->
+    </div><!--end .accordion-->
+    </div>
+
+
+<!-- Start of first page -->
+<div data-role="page" id="home" >
+  <!--HEADER with walking guy-->
+  <div data-role="header" id="header" class="align">
+    <img src="stranger.gif"alt="strangerDANGER" id="d">
+    <img src="DANGER.gif"alt="strangerDANGER" id="d">
+    <img src="walk.gif"alt="" id="doo">
+  </div><!-- /header -->
+
+  <div data-role="content" class="section">
+  <!--BUTTONS-->
+  <div class="align" >
+
+  <input type="image" src="Dangert.png" id="z"onclick=" geocodeLatLng(geocoder, map)"/>
+    <div>
+        <div id="welcomeDiv"  style="display:none;" class="answer_list" > WELCOME</div>
+        <input type="image" src="911.png"  id="y" onclick="which()">
+
+
+
+        <audio id="audio" src="alarm.mp3" ></audio>
+    
+        <input type="image" src="fake.png" id="x" class="play" onclick="fake()"/>
+      
+    
+    </div>
+  </div>
+  
+  <!--MAPS ACCORDION TAB -->  
+    <div class="accordion">
+        <div class="accordion-section">
+            <a class="accordion-section-title" href="#accordion-1"  id="icon">Maps</a>
+             <div id="accordion-1" class="accordion-section-content">
+                <li><p><a href="http://maps.nyc.gov/crime/"id="icon">Crime Map</a></p></li>
+              <li><p onclick="maps()" id="icon">Where to Go</p></li>
+            </div><!--end .accordion-section-content-->
+        </div><!--end .accordion-section-->
+    </div><!--end .accordion-->
+    <!--SAFETY TIPS ACCORDION TAB HERE-->
+    <div class="accordion">
+        <div class="accordion-section">
+            <a class="accordion-section-title" href="#accordion-2"id="icon">Safety</a>
+             
+            <div id="accordion-2" class="accordion-section-content">
+                <li><p><a href="#campus"id="icon">Campus Safety</a></p></li>
+              <li><p><a href="#nightlife"id="icon">Nightlife Safety</a></p></li>
+              <li><p><a href="#subway"id="icon">Subway Safety</a></p></li>
+            </div><!--end .accordion-section-content-->
+        </div><!--end .accordion-section-->
+    </div><!--end .accordion-->
+    <!--SELF DEFENSE ACCORDION TAB-->
+    <div class="accordion">
+        <div class="accordion-section">
+            <a class="accordion-section-title" href="#accordion-3"id="icon">Self-Defense</a>
+             
+            <div id="accordion-3" class="accordion-section-content">
+                <li><p><a href="#defend"id="icon">Defend Yourself</a></p></li>
+              <li><p><a href="#where"id="icon">Where to Learn</a></p></li>
+            </div><!--end .accordion-section-content-->
+        </div><!--end .accordion-section-->
+    </div><!--end .accordion-->
+    <div class="accordion">
+        <div class="accordion-section">
+            <a class="accordion-section-title" href="#accordion-4"id="icon">Settings</a>
+             
+            <div id="accordion-4" class="accordion-section-content">
+                <li><p><a href="#dangers"id="icon">Danger Button</a></p></li>
+              
+            </div><!--end .accordion-section-content-->
+        </div><!--end .accordion-section-->
+    </div><!--end .accordion-->
+  
+  </div><!-- /content -->
+
+  <div data-role="footer" id="header" >
+    <div class="height">
+    <p onclick="credits()" id="footer">Credits</p>
+    <a href="#login" id="footer">Login/Sign Up</a>
+  </div>
+  </div><!-- /footer -->
+</div><!-- /page -->
+
+
+
+<div data-role="page" id="maps"><!-- /START OF MAPS PAGE -->
+<title>Map</title>
+  <div data-role="header" id="header" class="align">
+   <img src="stranger.gif"alt="strangerDANGER" id="d">
+    <img src="DANGER.gif"alt="strangerDANGER" id="d">
+    <img src="walk.gif"alt="" id="doo">
+    <p class="headers">Where to Go?!?</p>
+  </div><!-- /header -->
+
+  <div data-role="content" class="section" id="iconw">
+    
+
+
+
+</div>
+    <p><a href="#home" class="homez">Back to Home</a></p>
+  
+  
+  </div><!-- /content -->
+
+  
+  <div data-role="footer" id="header" >
+    <div class="height">
+    <p onclick="credits()" id="footer">Credits</p>
+    <a href="#login" id="footer">Login/Sign Up</a>
+  </div>
+  </div><!-- /footer -->
+</div>
+
+
+
+
+
+
+
+
+
+  
+<div data-role="page" id="campus"><!-- /START OF Campus Safety Page -->
+<title>Safety</title>
+  <div data-role="header" id="header" class="align">
+    <img src="stranger.gif"alt="strangerDANGER" id="d">
+    <img src="DANGER.gif"alt="strangerDANGER" id="d">
+    <img src="walk.gif"alt="" id="doo">
+    <p class="headers">Campus Safety</p>
+  </div><!-- /header -->
+
+  <div data-role="content" class="section" id="iconw">
+    <ul class="link"> 
+      <li>Don’t let technology make you unaware of your surroundings. When wearing headphones, or using a phone you do not notice as much anymore! You get absorbed in your phone, and do not pay attention to what is going on around you. This is what you should not be doing. Try to lower your music and only wear one headphone when listening to music. </li>
+      <li>Avoid traveling alone at night</li>
+      <li>Try to walk in well-lit, popularly traveled walks and pathways.</li>
+      <li>Try to use the "buddy system" and watch out for your neighbor.</li>
+      <li>Locate the emergency system areas on campus</li>
+      <li>Have a whistle, you might think it sounds silly but in an emergency, you'd be happy to have the whistle there.</ul>
+    <p class="align"><input type="image" src="home.jpg" class="home" onclick="home()"/></p>
+
+  
+  
+  </div><!-- /content -->
+
+  
+  <div data-role="footer" id="header" >
+    <div class="height">
+    <p onclick="credits()" id="footer">Credits</p>
+    <a href="#login" id="footer">Login/Sign Up</a>
+  </div>
+  </div><!-- /footer -->
+</div>
+  <div data-role="page" id="nightlife"><!-- /START OF Nightlife Safety Page -->
+<title>Safety</title>
+  <div data-role="header" id="header" class="align">
+    <img src="stranger.gif"alt="strangerDANGER" id="d">
+    <img src="DANGER.gif"alt="strangerDANGER" id="d">
+    <img src="walk.gif"alt="" id="doo">
+    <p class="headers">Nightlife Safety</p>
+  </div><!-- /header -->
+
+  <div data-role="content" class="section" id="iconw">
+    <ul class="link">
+      <li>Always be aware of your surroundings!</li>
+      <li>Avoid excessive drinking, if you have been drinking,
+      Realize that it can impact on your judgment.</li>
+      <li>Always have someone know where you are or where you are going.</li>
+      <li>Don't be afraid to take a cab, pay the extra money to take a cab.</li>
+      <li>Don't walk alone during late-night hours, walk in groups if you can, there is always safety in numbers.</li>
+      <li>Don't turn up the volume on headphones so high that you cannot hear outside noises.</li>
+    </ul>
+<p class="align"><input type="image" src="home.jpg" class="home" onclick="home()"/></p> 
+
+
+  </div><!-- /content -->
+  
+  <div data-role="footer" id="header" >
+    <div class="height">
+    <p onclick="credits()" id="footer">Credits</p>
+    <a href="#login" id="footer">Login/Sign Up</a>
+  </div>
+  </div><!-- /footer -->
+</div><!-- /page -->
+
+
+
+
+
+
+
+<div data-role="page" id="subway"><!-- /START OF Subway Safety -->
+
+  <div data-role="header" id="header" class="align">
+    <img src="stranger.gif"alt="strangerDANGER" id="d">
+    <img src="DANGER.gif"alt="strangerDANGER" id="d">
+    <img src="walk.gif"alt="" id="doo">
+    <p class="headers">Subway Safety</h1>
+  </div><!-- /header -->
+
+  <div data-role="content" class="section" id="iconw">
+    <ul class="link">
+      <li>Be careful not to display money in public.</li>
+      <li>Hold on to your pocketbook when using the shoulder strap.</li>
+      <li>Keep your wallet out of sight and never put your wallet in your rear pocket.</li>
+      <li>Be sure your necklaces and other jewelry are not visible.</li>
+      <li>Do not doze or fall asleep on the train.</li>
+      <li>You can wait by the off hours waiting area, every station has an Off-Hours Waiting Area. Areas are marked by yellow signs.</li>
+      <li>Ride in the conductor's car when you travel at night. Most times you'll find the Conductor's Car in the middle of the train.</li>
+    </ul>
+<p class="align"><input type="image" src="home.jpg" class="home" onclick="home()"/></p>  
+  </div><!-- /content -->
+ 
+  <div data-role="footer" id="header" >
+    <div class="height">
+    <p onclick="credits()" id="footer">Credits</p>
+    <a href="#login" id="footer">Login/Sign Up</a>
+  </div>
+  </div><!-- /footer -->
+</div><!-- /page -->
+
+
+
+
+
+<div data-role="page" id="where"><!-- /START OF WHERE TO LEARN PAGE -->
+
+  <div data-role="header" id="header" class="align">
+    <img src="stranger.gif"alt="strangerDANGER" id="d">
+    <img src="DANGER.gif"alt="strangerDANGER" id="d">
+    <img src="walk.gif"alt="" id="doo">
+    <h1>Where you can become a self-defense ninja...</h1>
+  </div><!-- /header -->
+
+  <div data-role="content" class="section" id="iconw">
+    <div class="link">
+    <p >
+      You can learn Self-Defense at these places!
+      <li><a href="http://femaleawareness.com/">Female Awareness</a></li>
+      <li><a href="http://www.chka.org/">Chinese Hawaiian Kenpo Academy</a></li>
+      <li><a href="http://prepareinc.com/">Prepare Inc</a></li>
+      <li><a href="http://kravmagaexperts.com/">Krav Maga</a></li>
+      <li><a href="http://www.newyorkselfdefenseschool.com/">New York Self-Defense School</a></li>
+      <li><a href="http://www.jkdnyc.com/">JKD NYC</a></li>
+      <li><a href="http://www.wammselfdefense.org/wamm_resources/other_chapters.htm">WAMM Self-Defense</a></li>
+
+    </p>
+  </div>
+<p class="align"><input type="image" src="home.jpg" class="home" onclick="home()"/></p>    
+  </div><!-- /content -->
+
+ 
+  <div data-role="footer" id="header" >
+    <div class="height">
+    <p onclick="credits()" id="footer">Credits</p>
+    <a href="#login" id="footer">Login/Sign Up</a>
+  </div>
+  </div><!-- /footer -->
+</div><!-- /page -->
+
+
+<div data-role="page" id="dangers" ><!-- /START OF Danger Settings-->
+
+  <div data-role="header" id="header" class="align">
+   <img src="stranger.gif"alt="strangerDANGER" id="d">
+    <img src="DANGER.gif"alt="strangerDANGER" id="d">
+    <img src="walk.gif"alt="" id="doo">
+    <h1>Danger Button</h1>
+  </div><!-- /header -->
+
+  <div data-role="content" class="section" id="iconw">
+    
+    <p>Enter the information for the Danger Button</p>
+    
+      
+      <label id="iconw">To:</label> 
+      <textarea id='recIn' type='text' placeholder='lifeguard #1'style="width:200px;"></textarea><br>
+      <textarea id='recIn2' type='text' placeholder='lifeguard #2'style="width:200px;"></textarea><br>
+      <textarea id='recIn3' type='text' placeholder='lifeguard #3'style="width:200px;"></textarea><br>
+      <label id="iconw">Send:</label> 
+      <textarea id='msgIn' type='text' placeholder='message' style="width:500px;"></textarea><br/>
+      <button type="button" onclick="recordInputs()"/>Save Changes</button>
+      <button type="button" onclick="home()"/>Cancel</button>
+  
+    </div>
+    
+    
+    
+    
+  </div><!-- /content -->
+
+
+  <div data-role="footer" id="header" >
+    <div class="height">
+    <p onclick="credits()" id="footer">Credits</p>
+    <a href="#login" id="footer">Login/Sign Up</a>
+  </div>
+  </div><!-- /footer -->
+</div><!-- /page -->
+
+
+
+
+
+<div data-role="page" id="defend" ><!-- /START OF Defend Yerself-->
+
+  <div data-role="header" id="header" class="align">
+   <img src="stranger.gif"alt="strangerDANGER" id="d">
+    <img src="DANGER.gif"alt="strangerDANGER" id="d">
+    <img src="walk.gif"alt="" id="doo">
+    <div class="headers">Defend Yourself!!</div>
+  </div><!-- /header -->
+
+  <div data-role="content" class="section" id="iconw" >
+     <div class="link">
+     <p class="padtext">You need to learn how to defend yourself, you never know what situation you might land in! Scroll through the pictures below and get a few tricks you can use just in case.</p>
+    <div class="container">
+  <br>
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+      <li data-target="#myCarousel" data-slide-to="4"></li>
+      <li data-target="#myCarousel" data-slide-to="5"></li>
+      <li data-target="#myCarousel" data-slide-to="6"></li>
+      <li data-target="#myCarousel" data-slide-to="7"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <img src="a.jpg" alt="Chania" width="460" height="345">
+      </div>
+
+      <div class="item">
+        <img src="b.jpg" alt="Chania" width="460" height="345">
+      </div>
+    
+      <div class="item">
+        <img src="c.jpg" alt="Flower" width="460" height="345">
+      </div>
+
+      <div class="item">
+        <img src="d.jpg" alt="Flower" width="460" height="345">
+      </div>
+      <div class="item">
+        <img src="e.jpg" alt="Flower" width="460" height="345">
+      </div>
+      <div class="item">
+        <img src="f.jpg" alt="Flower" width="460" height="345">
+      </div>
+      <div class="item">
+        <img src="g.jpg" alt="Flower" width="460" height="345">
+      </div>
+      <div class="item">
+        <img src="h.jpg" alt="Flower" width="460" height="345">
+      </div>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+    
+    <p class="padtext">Here is a list of sites where you can get some tips :)
+      <div >
+      <li class="link"><a href="http://www.buzzfeed.com/gabbynoone/12-self-defense-tips-that-could-come-in-handy-one-day#.itZpk0N7Ay">Buzzfeed-12 Tips that could come in handy</a></li>
+      <li class="link"><a href="http://lifehacker.com/5825528/basic-self-defense-moves-anyone-can-do-and-everyone-should-know">LifeHacker-Basic Moves Anyone Can Do</a></li>
+      <li class="link"><a href="http://health.usnews.com/health-news/health-wellness/articles/2013/10/16/how-to-practice-self-defense-through-awareness">US News-Self-Defense by Awareness</a></li>
+      <li class="link"><a href="http://kidshealth.org/teen/safety/safebasics/self_defense.html">Kid's Health-Safe Basics Self Defense</a></li>
+    </div>
+    </div>
+<p class="align"><input type="image" src="home.jpg" class="home" onclick="home()"/></p>  </div><!-- /content -->
+
+  
+  <div data-role="footer" id="header" >
+    <div class="height">
+    <p onclick="credits()" id="footer">Credits</p>
+    <a href="#login" id="footer">Login/Sign Up</a>
+  </div>
+  </div><!-- /footer -->
+</div><!-- /page -->
+
+
+
+
+
+<div data-role="page" id="credits"><!-- /START OF Credits -->
+
+  <div data-role="header" id="header" class="align">
+    <img src="stranger.gif"alt="strangerDANGER" id="d">
+    <img src="DANGER.gif"alt="strangerDANGER" id="d">
+    <img src="walk.gif"alt="" id="doo">
+
+    <h1>Credits!</h1>
+  </div><!-- /header -->
+
+  <div data-role="content" class="section" id="iconw">
+ 
+    </div>
+<p class="align"><input type="image" src="home.jpg" class="home" onclick="home()"/></p>    
+    
+    
+  </div><!-- /content -->
+
+  <div data-role="footer" id="header" >
+    <h1>:)</h1>
+
+      </div><!-- /footer -->
+</div><!-- /page -->
+
+
+
+
+
+
+<div data-role="page" id="fake"><!-- /START OF Fake -->
+  <div class="align" id="blackback">
+    <img src="header.jpg" alt="header" id="headphone">
+    <img src="caller.jpg" alt="911"id="caller">
+  <div>
+    <img alt="" src="mute.jpg" class="button1"   />
+    <img src="key.jpg" alt="keypad"class="button1">
+    <img src="speaker.jpg" alt="speaker" class="button1">
+</div>
+<div>
+  <img src="y.jpg" alt="mute"class="button1">
+  <img src="x.jpg" alt="keypad"class="button1">
+  <img src="contacts.jpg" alt="speaker" class="button1">
+</div>
+<div class="pause"><a href="#home"><img src="end.jpg" alt="end call" id="end"></a></div>
+</div>
+
+  
+</div><!-- /page -->
+
+
+
+
+
+
+<script>
+
+
+
+//AUDIO OF ALARM
+  var audio;
+  function play(){
+       audio = document.getElementById("audio");
+       audio.play();
+                 }
+  function pause(){
+       audio = document.getElementById("audio");
+       audio.pause();
+       audio.currentTime=0;
+  }
+
+
+
+    
+//AUDIO OF THE FAKE CALL
+
+    $(document).ready(function() {
+        var audioElement = document.createElement('audio');
+        audioElement.setAttribute('src', '911op.mp3');
+         var audioElement2 = document.createElement('audio');
+        audioElement2.setAttribute('src', 'ring.mp3');
+        //audioElement.setAttribute('autoplay', 'autoplay');
+        //audioElement.load()
+
+        $.get();
+
+        audioElement.addEventListener("load", function() {
+            audioElement2.play();
+            audioElement.play();
+        }, true);
+
+        $('.play').click(function() {
+            
+            audioElement2.play();
+            audioElement.play();
+        });
+
+        $('.pause').click(function() {
+            audioElement.pause();
+            audioElement2.pause();
+            audioElement.currentTime=0;
+        });
+    });
+    var ps=0;
+function which(){
+  if (ps==0){
+    play();
+    ps=1;
+  }
+  else{
+    pause();
+    ps=0;
+  }
+}
+
+//IMAGE CHANGE FOR FAKE CALL
+ function showDiv() {
+   document.getElementById('welcomeDiv').style.display = "block";
+}
+
+
+</script>   
+
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8 />
+  <link rel="icon" 
+      type="image/png" 
+      href="http://www.childandfamilymentalhealth.com/wp-content/uploadZ33/2012/02/stranger-danger.gif">
+	<title>Safety Map</title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.js'></script>
+	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.css' rel='stylesheet' />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.mapbox.css' rel='stylesheet' />
+  <!--[if lt IE 9]>
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.ie.css' rel='stylesheet' />
+  <![endif]-->
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/css/font-awesome.min.css' rel='stylesheet' />
+	<style>
+
+
+	  body { margin:0; padding:0; background-color:black; width:100%; height: 100%;}
+	  #container { 
+	  	position:relative; 
+	  	margin: 0px auto; 
+	  	width: 100%;
+      background-color:black;
+      color:red;
+
+	  }
+	  #map { 
+	  	position:relative; 
+	  	height: 600px; 
+	  	width:100%; 
+      color:black;
+	  }
+	</style>
+</head>
+
+<body>
+
+<div id="container">
+    <div id="map"></div>
+</div>
+
+<script src="chenoaScript.js"></script>
+<script> L.control.locate().addTo(map)</script>
+
+</body>
+
+</html>
